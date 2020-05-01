@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Sindikat.Identity.Application.Dtos;
 using Sindikat.Identity.Application.Interfaces;
 using Sindikat.Identity.Common.Exceptions;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Sindikat.Identity.API.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class ClaimController : ControllerBase
@@ -18,8 +20,7 @@ namespace Sindikat.Identity.API.Controllers
             _claimService = claimService;
             _claimValidatorService = claimValidatorService;
         }
-
-        // AUTHORIZE
+        
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -28,7 +29,6 @@ namespace Sindikat.Identity.API.Controllers
             return Ok(claims);
         }
 
-        // AUTHORIZE
         [HttpGet("{id}")]
         public async Task<IActionResult> GetOne(int id)
         {
@@ -40,7 +40,6 @@ namespace Sindikat.Identity.API.Controllers
             return Ok(claim);
         }
 
-        // AUTHORIZE
         [HttpPost]
         public async Task<IActionResult> Create(ClaimForSaveDto claimForSave)
         {
@@ -51,7 +50,6 @@ namespace Sindikat.Identity.API.Controllers
             return Ok(claimDto);
         }
 
-        // AUTHORIZE
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, ClaimForSaveDto claimForSave)
         {
@@ -62,7 +60,6 @@ namespace Sindikat.Identity.API.Controllers
             return Ok(claimDto);
         }
 
-        // AUTHORIZE
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

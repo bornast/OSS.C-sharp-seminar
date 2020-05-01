@@ -22,11 +22,11 @@ namespace Sindikat.Identity.Infrastructure.Auth
             Configuration = configuration;
         }
 
-        public object Generate(string email, User user)
+        public object Generate(User user)
         {
             var claims = new List<SystemClaim>
             {
-                new SystemClaim(JwtRegisteredClaimNames.Sub, email),
+                new SystemClaim(JwtRegisteredClaimNames.Sub, user.UserName),
                 new SystemClaim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new SystemClaim(ClaimTypes.NameIdentifier, user.Id),
             };
@@ -36,6 +36,11 @@ namespace Sindikat.Identity.Infrastructure.Auth
             foreach (var role in roles)
             {
                 claims.Add(new SystemClaim(ClaimTypes.Role, role.Name));
+            }
+
+            foreach (var userClaim in user.UserClaims)
+            {
+                claims.Add(new SystemClaim(userClaim.Claim.Name, userClaim.ClaimValue));
             }
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtKey"]));

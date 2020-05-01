@@ -7,6 +7,6 @@ namespace Sindikat.Identity.Application.Interfaces
 {
     public interface IJwtFactory
     {
-        object Generate(string email, User user);
+        object Generate(User user);
     }
 }

@@ -27,21 +27,21 @@ namespace Sindikat.Identity.Application.Services
 
         public async Task<string> Login(LoginDto userForLogin)
         {
-            var result = await _signInManager.PasswordSignInAsync(userForLogin.Email, userForLogin.Password, false, false);
+            var result = await _signInManager.PasswordSignInAsync(userForLogin.UserName, userForLogin.Password, false, false);
 
             if (!result.Succeeded)
                 throw new UnauthorizedException();
 
-            var user = _userManager.Users.SingleOrDefault(r => r.Email == userForLogin.Email);
+            var user = _userManager.Users.SingleOrDefault(r => r.UserName == userForLogin.UserName);
 
-            return _jwtFactory.Generate(userForLogin.Email, user).ToString();
+            return _jwtFactory.Generate(user).ToString();
         }
 
         public async Task Register(RegisterDto userForRegistration)
         {
             var user = new User
             {
-                UserName = userForRegistration.Email,
+                UserName = userForRegistration.UserName,
                 Email = userForRegistration.Email
             };
 

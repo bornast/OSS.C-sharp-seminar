@@ -37,14 +37,7 @@ namespace Sindikat.Identity.API.Controllers
             await _authService.Register(userForRegistration);
 
             return Ok();
-        }
-
-        [Authorize(Roles ="Admin")]
-        [HttpGet]
-        public async Task<IActionResult> Admin()
-        {
-            return Ok();
-        }        
+        }             
 
     }
 }

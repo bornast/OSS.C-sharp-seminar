@@ -10,7 +10,7 @@ namespace Sindikat.Identity.Application.Validators
     {
         public LoginDtoValidator()
         {
-            RuleFor(x => x.Email).NotEmpty();
+            RuleFor(x => x.UserName).NotEmpty();
             RuleFor(x => x.Password).NotEmpty().MinimumLength(3);
         }
     }    

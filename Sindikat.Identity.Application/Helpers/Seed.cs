@@ -30,7 +30,7 @@ namespace Sindikat.Identity.Application.Helpers
             var user = new User
             {
                 UserName = "Admin",
-                Email = "Email"
+                Email = "Admin"
             };
 
             userManager.CreateAsync(user, password: user.UserName).Wait();
