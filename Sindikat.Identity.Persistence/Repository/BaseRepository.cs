@@ -1,6 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Sindikat.Identity.Application.Interfaces;
 
@@ -22,9 +25,42 @@ namespace Sindikat.Identity.Persistence.Repository
             return this.DbSet;
         }
 
+        public async Task<IEnumerable<T>> WhereAsync(Expression<Func<T, bool>> whereExpression)
+        {
+            var entities = await this.DbSet.Where(whereExpression).ToListAsync();
+
+            return entities;
+        }
+
+        public async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> whereExpression)
+        {
+            var entity = await this.DbSet.FirstOrDefaultAsync(whereExpression);
+
+            return entity;
+        }
+
+        public async Task<T> FindAsync(int id)
+        {
+            var entity = await this.DbSet.FindAsync(id);
+
+            return entity;
+        }
+
+        public async Task<IEnumerable<T>> GetAllAsync()
+        {
+            var entities = await this.DbSet.ToListAsync();
+
+            return entities;
+        }
+
         public T Single(int id)
         {
             return this.DbSet.Find(id);
+        }
+
+        public void Delete(T entity)
+        {
+            DbSet.Remove(entity);
         }
 
         public void Persist(T entity)
@@ -42,9 +78,9 @@ namespace Sindikat.Identity.Persistence.Repository
             Db.SaveChanges();
         }
 
-        public void FlushAsync()
+        public async Task FlushAsync()
         {
-            Db.SaveChangesAsync();
+            await Db.SaveChangesAsync();
         }
     }
 }

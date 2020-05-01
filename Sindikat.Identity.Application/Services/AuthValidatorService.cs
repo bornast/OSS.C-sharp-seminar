@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Sindikat.Identity.Application.Dtos;
 using Sindikat.Identity.Application.Interfaces;
-using Sindikat.Identity.Application.Validator;
+using Sindikat.Identity.Application.Validators;
 using Sindikat.Identity.Domain.Entities;
 using System;
 using System.Collections.Generic;

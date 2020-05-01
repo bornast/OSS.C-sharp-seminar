@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Sindikat.Identity.Application.Dtos;
 using Sindikat.Identity.Application.Interfaces;
+using Sindikat.Identity.Common.Enums;
 using Sindikat.Identity.Common.Exceptions;
 using Sindikat.Identity.Domain.Entities;
 using System;
@@ -38,19 +39,15 @@ namespace Sindikat.Identity.Application.Services
 
         public async Task Register(RegisterDto userForRegistration)
         {
-            // TODO: add fluent validation
             var user = new User
             {
                 UserName = userForRegistration.Email,
                 Email = userForRegistration.Email
             };
 
-            var result = await _userManager.CreateAsync(user, userForRegistration.Password);
+            await _userManager.CreateAsync(user, userForRegistration.Password);
 
-            if (!result.Succeeded)
-                throw new Exception("failed to login!");
-                //var errors = result.Errors.Select(x => x.Description);
-
+            await _userManager.AddToRoleAsync(user, Enum.GetName(typeof(Roles), Roles.User));
         }
     }
 }

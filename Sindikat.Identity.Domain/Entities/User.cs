@@ -8,6 +8,7 @@ namespace Sindikat.Identity.Domain.Entities
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public virtual ICollection<UserRole> UserRoles { get; set; }
+        public virtual ICollection<UserClaim> UserClaims { get; set; }
     }
 
 }

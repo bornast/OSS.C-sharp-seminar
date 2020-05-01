@@ -22,6 +22,10 @@
     <Compile Remove="Migrations\20200501121951_Initial.Designer.cs" />
     <Compile Remove="Migrations\20200501125600_SeedRoles.cs" />
     <Compile Remove="Migrations\20200501125600_SeedRoles.Designer.cs" />
+    <Compile Remove="Migrations\20200501165808_ClaimTableAdded.cs" />
+    <Compile Remove="Migrations\20200501165808_ClaimTableAdded.Designer.cs" />
+    <Compile Remove="Migrations\20200501170021_ClaimTableAdded.cs" />
+    <Compile Remove="Migrations\20200501170021_ClaimTableAdded.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

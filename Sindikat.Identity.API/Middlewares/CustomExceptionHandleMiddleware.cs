@@ -46,6 +46,10 @@ namespace Sindikat.Identity.API.Middlewares
                     code = HttpStatusCode.Unauthorized;
                     result = "";
                     break;
+                case NotFoundException _:
+                    code = HttpStatusCode.NotFound;
+                    result = "";
+                    break;
             }
 
             context.Response.ContentType = "application/json";

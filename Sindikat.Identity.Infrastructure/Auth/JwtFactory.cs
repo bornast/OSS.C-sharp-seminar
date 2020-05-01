@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Sindikat.Identity.Application.Interfaces;
 using System.Linq;
+using SystemClaim = System.Security.Claims.Claim;
 
 namespace Sindikat.Identity.Infrastructure.Auth
 {
@@ -23,18 +24,18 @@ namespace Sindikat.Identity.Infrastructure.Auth
 
         public object Generate(string email, User user)
         {
-            var claims = new List<Claim>
+            var claims = new List<SystemClaim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, email),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.NameIdentifier, user.Id),
+                new SystemClaim(JwtRegisteredClaimNames.Sub, email),
+                new SystemClaim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new SystemClaim(ClaimTypes.NameIdentifier, user.Id),
             };
 
             var roles = user.UserRoles.Select(x => x.Role).ToList();
 
             foreach (var role in roles)
             {
-                claims.Add(new Claim(ClaimTypes.Role, role.Name));
+                claims.Add(new SystemClaim(ClaimTypes.Role, role.Name));
             }
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtKey"]));

@@ -43,8 +43,6 @@ namespace Sindikat.Identity.API.Controllers
         [HttpGet]
         public async Task<IActionResult> Admin()
         {
-            
-
             return Ok();
         }        
 

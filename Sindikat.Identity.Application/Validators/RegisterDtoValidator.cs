@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Sindikat.Identity.Application.Validator
+namespace Sindikat.Identity.Application.Validators
 {
     public class RegisterDtoValidator : AbstractValidator<RegisterDto>
     {

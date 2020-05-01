@@ -41,7 +41,6 @@ namespace Sindikat.Identity.API
             }
 
             host.Run();
-
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
