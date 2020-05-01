@@ -10,6 +10,7 @@ namespace Sindikat.Identity.Application
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<AuthService>().As<IAuthService>();
+            builder.RegisterType<AuthValidatorService>().As<IAuthValidatorService>();
         }
     }
 }

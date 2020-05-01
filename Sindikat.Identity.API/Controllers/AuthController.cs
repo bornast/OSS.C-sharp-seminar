@@ -11,25 +11,30 @@ namespace Sindikat.Identity.API.Controllers
     public class AuthController : ControllerBase
     {        
         private readonly IAuthService _authService;
+        private readonly IAuthValidatorService _authValidatorService;
 
-        public AuthController(IAuthService authService)
+        public AuthController(IAuthService authService, IAuthValidatorService authValidatorService)
         {            
             _authService = authService;
+            _authValidatorService = authValidatorService;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginDto model)
+        public async Task<IActionResult> Login(LoginDto userForLogin)
         {
-            var token = await _authService.Login(model);
+            _authValidatorService.ValidateForLogin(userForLogin);
 
-            return new JsonResult(token);
+            var token = await _authService.Login(userForLogin);
+
+            return Ok(token);
         }
 
-
         [HttpPost]
-        public async Task<IActionResult> Register([FromForm] RegisterDto model)
+        public async Task<IActionResult> Register(RegisterDto userForRegistration)
         {
-            await _authService.Register(model);
+            await _authValidatorService.ValidateForRegistration(userForRegistration);
+
+            await _authService.Register(userForRegistration);
 
             return Ok();
         }
@@ -41,24 +46,7 @@ namespace Sindikat.Identity.API.Controllers
             
 
             return Ok();
-        }
-
-        [Authorize(Roles = "NotAdmin")]
-        [HttpGet]
-        public async Task<IActionResult> NotAdmin()
-        {
-
-
-            return Ok();
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> Anyone()
-        {
-
-
-            return Ok();
-        }
+        }        
 
     }
 }

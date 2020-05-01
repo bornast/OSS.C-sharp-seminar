@@ -25,6 +25,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Sindikat.Identity.Application;
+using Sindikat.Identity.API.Middlewares;
 
 namespace Sindikat.Identity.API
 {
@@ -135,15 +136,7 @@ namespace Sindikat.Identity.API
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
 
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseHsts();
-            }
-
+            app.UseMiddleware<CustomExceptionHandlerMiddleware>();
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {

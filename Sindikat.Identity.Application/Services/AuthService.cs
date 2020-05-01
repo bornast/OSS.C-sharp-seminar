@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Sindikat.Identity.Application.Dtos;
 using Sindikat.Identity.Application.Interfaces;
+using Sindikat.Identity.Common.Exceptions;
 using Sindikat.Identity.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -28,10 +29,7 @@ namespace Sindikat.Identity.Application.Services
             var result = await _signInManager.PasswordSignInAsync(userForLogin.Email, userForLogin.Password, false, false);
 
             if (!result.Succeeded)
-            {
-                // TODO: custom exception and handle it in custom exception middleware
-                throw new Exception("Failed to sign in!");
-            }
+                throw new UnauthorizedException();
 
             var user = _userManager.Users.SingleOrDefault(r => r.Email == userForLogin.Email);
 
