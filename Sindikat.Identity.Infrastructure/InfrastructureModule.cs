@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using Autofac;
 using Sindikat.Identity.Application.Interfaces;
-using Sindikat.Identity.Infrastructure.Auth;
+using Sindikat.Identity.Application.Services;
 using Module = Autofac.Module;
 
 namespace Sindikat.Identity.Infrastructure

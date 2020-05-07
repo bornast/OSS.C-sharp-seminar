@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 using Sindikat.Identity.Domain.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -11,7 +10,7 @@ using Sindikat.Identity.Application.Interfaces;
 using System.Linq;
 using SystemClaim = System.Security.Claims.Claim;
 
-namespace Sindikat.Identity.Infrastructure.Auth
+namespace Sindikat.Identity.Application.Services
 {
     // TODO: move this to Application layer
     public class JwtFactory : IJwtFactory

@@ -32,6 +32,7 @@ namespace Sindikat.Identity.Application.Services
 
             CheckValidationResults(validator.Validate(userForRegistration));
 
+            // TODO: refactor this to make only 1 request to the db
             var existingUserEmail = await _userManager.FindByEmailAsync(userForRegistration.Email);
 
             if (existingUserEmail != null)

@@ -23,7 +23,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Sindikat.Identity.Application\Sindikat.Identity.Application.csproj" />
-    <ProjectReference Include="..\Sindikat.Identity.Infrastructure\Sindikat.Identity.Infrastructure.csproj" />
     <ProjectReference Include="..\Sindikat.Identity.Persistence\Sindikat.Identity.Persistence.csproj" />
   </ItemGroup>
 
