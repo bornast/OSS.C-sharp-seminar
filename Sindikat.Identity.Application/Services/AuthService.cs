@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Sindikat.Identity.Application.Dtos;
 using Sindikat.Identity.Application.Interfaces;
 using Sindikat.Identity.Common.Enums;
@@ -17,12 +18,14 @@ namespace Sindikat.Identity.Application.Services
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IJwtFactory _jwtFactory;
+        private readonly IMapper _mapper;
 
-        public AuthService(UserManager<User> userManager, SignInManager<User> signInManager, IJwtFactory jwtFactory)
+        public AuthService(UserManager<User> userManager, SignInManager<User> signInManager, IJwtFactory jwtFactory, IMapper mapper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _jwtFactory = jwtFactory;
+            _mapper = mapper;
         }
 
         public async Task<string> Login(LoginDto userForLogin)
@@ -39,11 +42,7 @@ namespace Sindikat.Identity.Application.Services
 
         public async Task Register(RegisterDto userForRegistration)
         {
-            var user = new User
-            {
-                UserName = userForRegistration.UserName,
-                Email = userForRegistration.Email
-            };
+            var user = _mapper.Map<User>(userForRegistration);
 
             await _userManager.CreateAsync(user, userForRegistration.Password);
 

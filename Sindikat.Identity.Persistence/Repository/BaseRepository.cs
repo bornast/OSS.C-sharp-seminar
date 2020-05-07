@@ -39,7 +39,7 @@ namespace Sindikat.Identity.Persistence.Repository
             return entity;
         }
 
-        public async Task<T> FindAsync(int id)
+        public async Task<T> FindAsync(object id)
         {
             var entity = await this.DbSet.FindAsync(id);
 

@@ -45,6 +45,12 @@ namespace Sindikat.Identity.API
         {
             var builder = new ContainerBuilder();
 
+            services.AddControllers().AddNewtonsoftJson(opt =>
+            {
+                opt.SerializerSettings.ReferenceLoopHandling =
+                Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
+
             // TODO: refactor this to extension methods
             services.AddSwaggerGen(c =>
             {
@@ -148,7 +154,11 @@ namespace Sindikat.Identity.API
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseMvc();
+            //app.UseMvc();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }

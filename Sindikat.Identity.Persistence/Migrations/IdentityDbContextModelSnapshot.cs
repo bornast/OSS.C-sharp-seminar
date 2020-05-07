@@ -233,6 +233,9 @@ namespace Sindikat.Identity.Persistence.Migrations
 
             modelBuilder.Entity("Sindikat.Identity.Domain.Entities.UserClaim", b =>
                 {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
                     b.Property<int>("ClaimId")
                         .HasColumnType("int");
 
@@ -240,9 +243,11 @@ namespace Sindikat.Identity.Persistence.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ClaimId", "UserId", "ClaimValue");
+                    b.HasKey("Id", "ClaimId", "UserId");
+
+                    b.HasIndex("ClaimId");
 
                     b.HasIndex("UserId");
 

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Sindikat.Identity.Application.Dtos;
 using Sindikat.Identity.Application.Interfaces;
+using Sindikat.Identity.Common.Exceptions;
 using Sindikat.Identity.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -32,29 +33,28 @@ namespace Sindikat.Identity.Application.Services
         {
             var claim = await _repo.FindAsync(id);
 
+            if (claim == null)
+                throw new NotFoundException();
+
             return _mapper.Map<ClaimDto>(claim);
         }
 
-        public async Task<ClaimDto> Create(ClaimForSaveDto claimForSave)
+        public async Task Create(ClaimForSaveDto claimForSave)
         {
             var claim = _mapper.Map<Claim>(claimForSave);
 
             _repo.Persist(claim);
 
             await _repo.FlushAsync();
-
-            return _mapper.Map<ClaimDto>(claim);
         }        
 
-        public async Task<ClaimDto> Update(int claimId, ClaimForSaveDto claimForSave)
+        public async Task Update(int claimId, ClaimForSaveDto claimForSave)
         {
             var claim = await _repo.FindAsync(claimId);
 
             _mapper.Map(claimForSave, claim);
 
             await _repo.FlushAsync();
-
-            return _mapper.Map<ClaimDto>(claim);
         }
 
         public async Task Delete(int id)

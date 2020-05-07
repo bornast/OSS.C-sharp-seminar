@@ -32,10 +32,15 @@ namespace Sindikat.Identity.Application.Services
 
             CheckValidationResults(validator.Validate(userForRegistration));
 
-            var existingUser = await _userManager.FindByEmailAsync(userForRegistration.Email);
+            var existingUserEmail = await _userManager.FindByEmailAsync(userForRegistration.Email);
 
-            if (existingUser != null)
+            if (existingUserEmail != null)
                 ThrowValidationError("Email", $"Email {userForRegistration.Email} already exists!");
+
+            var existingUserUsername = await _userManager.FindByNameAsync(userForRegistration.UserName);
+
+            if (existingUserUsername != null)
+                ThrowValidationError("Username", $"Username {userForRegistration.UserName} already exists!");
         }
 
     }

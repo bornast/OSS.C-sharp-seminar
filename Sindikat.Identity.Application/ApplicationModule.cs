@@ -19,6 +19,9 @@ namespace Sindikat.Identity.Application
 
             builder.RegisterType<ClaimService>().As<IClaimService>();
             builder.RegisterType<ClaimValidatorService>().As<IClaimValidatorService>();
+
+            builder.RegisterType<UserService>().As<IUserService>();
+            builder.RegisterType<UserValidatorService>().As<IUserValidatorService>();
         }
 
         private void LoadAutomapper(ContainerBuilder builder)

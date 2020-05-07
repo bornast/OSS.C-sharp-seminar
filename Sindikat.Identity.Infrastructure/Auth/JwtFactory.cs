@@ -13,6 +13,7 @@ using SystemClaim = System.Security.Claims.Claim;
 
 namespace Sindikat.Identity.Infrastructure.Auth
 {
+    // TODO: move this to Application layer
     public class JwtFactory : IJwtFactory
     {
         public IConfiguration Configuration { get; set; }

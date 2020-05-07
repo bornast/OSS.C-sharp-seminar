@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Sindikat.Identity.API.Controllers
 {
+    // TODO: pass role enums
     [Authorize(Roles = "Admin")]
     [Route("api/[controller]/[action]")]
     [ApiController]
@@ -34,9 +35,6 @@ namespace Sindikat.Identity.API.Controllers
         {
             var claim = await _claimService.GetOne(id);
 
-            if (claim == null)
-                throw new NotFoundException();
-
             return Ok(claim);
         }
 
@@ -45,9 +43,9 @@ namespace Sindikat.Identity.API.Controllers
         {
             await _claimValidatorService.ValidateForSave(claimForSave);
 
-            var claimDto = await _claimService.Create(claimForSave);
+            await _claimService.Create(claimForSave);
 
-            return Ok(claimDto);
+            return Ok();
         }
 
         [HttpPut("{id}")]
@@ -55,9 +53,9 @@ namespace Sindikat.Identity.API.Controllers
         {
             await _claimValidatorService.ValidateForUpdate(id, claimForSave);
 
-            var claimDto = await _claimService.Update(id, claimForSave);
+            await _claimService.Update(id, claimForSave);
 
-            return Ok(claimDto);
+            return Ok();
         }
 
         [HttpDelete("{id}")]

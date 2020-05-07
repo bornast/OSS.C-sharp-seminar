@@ -15,7 +15,7 @@ namespace Sindikat.Identity.Application.Interfaces
 
         Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> whereExpression);
 
-        Task<T> FindAsync(int id);
+        Task<T> FindAsync(object id);
 
         Task<IEnumerable<T>> GetAllAsync();
 

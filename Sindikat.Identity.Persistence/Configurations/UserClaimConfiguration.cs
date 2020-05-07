@@ -11,7 +11,7 @@ namespace Sindikat.Identity.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<UserClaim> builder)
         {
-            builder.HasKey(x => new { x.ClaimId, x.UserId, x.ClaimValue });
+            builder.HasKey(x => new { x.Id, x.ClaimId, x.UserId });
         }
     }
 }
