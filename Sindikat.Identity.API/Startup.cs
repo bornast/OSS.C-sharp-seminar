@@ -32,7 +32,7 @@ namespace Sindikat.Identity.API
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        // TODO: refactor this using extension methods
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             var builder = new ContainerBuilder();
@@ -42,8 +42,7 @@ namespace Sindikat.Identity.API
                 opt.SerializerSettings.ReferenceLoopHandling =
                 Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
-
-            // TODO: refactor this to extension methods
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "You api title", Version = "v1" });
@@ -78,7 +77,7 @@ namespace Sindikat.Identity.API
 
             });
 
-            services.AddDbContext<Persistence.IdentityDbContext>(options =>
+            services.AddDbContext<IdentityDbContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("IdentityDatabase"))
                 .UseLazyLoadingProxies();
@@ -92,10 +91,20 @@ namespace Sindikat.Identity.API
                 options.Password.RequireUppercase = false;
                 options.Password.RequireLowercase = false;
             })
-                .AddEntityFrameworkStores<Persistence.IdentityDbContext>()
+                .AddEntityFrameworkStores<IdentityDbContext>()
                 .AddDefaultTokenProviders();           
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidIssuer = Configuration["JwtIssuer"],
+                ValidAudience = Configuration["JwtIssuer"],
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtKey"])),
+                ClockSkew = TimeSpan.Zero // remove delay of token when expire
+            };
+
+            services.AddSingleton(tokenValidationParameters);
 
             services
                 .AddAuthentication(options =>
@@ -109,13 +118,7 @@ namespace Sindikat.Identity.API
                 {
                     cfg.RequireHttpsMetadata = false;
                     cfg.SaveToken = true;
-                    cfg.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidIssuer = Configuration["JwtIssuer"],
-                        ValidAudience = Configuration["JwtIssuer"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtKey"])),
-                        ClockSkew = TimeSpan.Zero // remove delay of token when expire
-                    };
+                    cfg.TokenValidationParameters = tokenValidationParameters;
                 });
 
             services.AddMvc(options => options.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Latest);
@@ -129,12 +132,12 @@ namespace Sindikat.Identity.API
             return new AutofacServiceProvider(this.ApplicationContainer);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-
             app.UseMiddleware<CustomExceptionHandlerMiddleware>();
+
             app.UseSwagger();
+
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
@@ -143,9 +146,9 @@ namespace Sindikat.Identity.API
             app.UseRouting();
 
             app.UseAuthentication();
+
             app.UseAuthorization();
 
-            //app.UseMvc();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

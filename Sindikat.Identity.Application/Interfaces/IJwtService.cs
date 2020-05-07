@@ -1,15 +1,17 @@
 ﻿using Sindikat.Identity.Application.Dtos;
+using Sindikat.Identity.Domain.Entities;
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Sindikat.Identity.Application.Interfaces
 {
-    public interface IAuthService
+    public interface IJwtService
     {
-        Task<LoginSuccessDto> Login(LoginDto userForLogin);
-        Task Register(RegisterDto userForRegistration);
+        Task<LoginSuccessDto> GenerateToken(User user);
         Task<LoginSuccessDto> RefreshToken(TokenForRefreshDto tokenForRefresh);
+        ClaimsPrincipal GetPrincipalFromToken(string token);
     }
 }

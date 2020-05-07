@@ -20,6 +20,8 @@ namespace Sindikat.Identity.Persistence
 
         }
 
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
+
         public override int SaveChanges()
         {
             var entities = ChangeTracker.Entries().Where(x => x.Entity is BaseEntity && (x.State == EntityState.Added || x.State == EntityState.Modified));

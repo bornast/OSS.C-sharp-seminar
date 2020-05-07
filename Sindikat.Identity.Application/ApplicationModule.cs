@@ -14,7 +14,7 @@ namespace Sindikat.Identity.Application
         {
             LoadAutomapper(builder);
 
-            builder.RegisterType<JwtFactory>().As<IJwtFactory>();
+            builder.RegisterType<JwtService>().As<IJwtService>();
 
             builder.RegisterType<AuthService>().As<IAuthService>();
             builder.RegisterType<AuthValidatorService>().As<IAuthValidatorService>();

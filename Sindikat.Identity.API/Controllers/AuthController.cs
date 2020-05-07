@@ -37,7 +37,17 @@ namespace Sindikat.Identity.API.Controllers
             await _authService.Register(userForRegistration);
 
             return Ok();
-        }             
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RefreshToken(TokenForRefreshDto tokenForRefresh)
+        {
+            await _authValidatorService.ValidateBeforeTokenRefresh(tokenForRefresh);
+
+            var token = await _authService.RefreshToken(tokenForRefresh);
+
+            return Ok(token);
+        }
 
     }
 }

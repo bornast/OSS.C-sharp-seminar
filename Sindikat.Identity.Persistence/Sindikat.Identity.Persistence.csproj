@@ -30,6 +30,12 @@
     <Compile Remove="Migrations\20200501170021_ClaimTableAdded.Designer.cs" />
     <Compile Remove="Migrations\20200501170144_ClaimTableAdded.cs" />
     <Compile Remove="Migrations\20200501170144_ClaimTableAdded.Designer.cs" />
+    <Compile Remove="Migrations\20200507115357_Initial.cs" />
+    <Compile Remove="Migrations\20200507115357_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20200507181920_RefreshTokenTableAdded.cs" />
+    <Compile Remove="Migrations\20200507181920_RefreshTokenTableAdded.Designer.cs" />
+    <Compile Remove="Migrations\20200507190142_RefreshTokenIdAutoIncrement.cs" />
+    <Compile Remove="Migrations\20200507190142_RefreshTokenIdAutoIncrement.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

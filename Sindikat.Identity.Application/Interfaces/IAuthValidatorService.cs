@@ -7,5 +7,6 @@ namespace Sindikat.Identity.Application.Interfaces
     {
         void ValidateForLogin(LoginDto userForLogin);
         Task ValidateForRegistration(RegisterDto userForRegistration);
+        Task ValidateBeforeTokenRefresh(TokenForRefreshDto tokenForRefresh);
     }
 }

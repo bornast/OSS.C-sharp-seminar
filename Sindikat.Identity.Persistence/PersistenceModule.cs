@@ -19,6 +19,7 @@ namespace Sindikat.Identity.Persistence
             builder.RegisterAssemblyTypes(assembly).Where(t => t.Name.EndsWith("Repository")).AsSelf();
             builder.RegisterType<BaseRepository<Claim>>().As<IBaseRepository<Claim>>();
             builder.RegisterType<BaseRepository<User>>().As<IBaseRepository<User>>();
+            builder.RegisterType<BaseRepository<RefreshToken>>().As<IBaseRepository<RefreshToken>>();
         }
     }
 }
