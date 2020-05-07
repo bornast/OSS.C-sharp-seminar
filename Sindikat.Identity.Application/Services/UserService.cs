@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 
 namespace Sindikat.Identity.Application.Services
 {
-    // TODO: Authorize
     public class UserService : IUserService
     {
         private readonly IBaseRepository<User> _repo;

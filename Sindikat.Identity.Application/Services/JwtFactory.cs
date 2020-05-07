@@ -12,7 +12,6 @@ using SystemClaim = System.Security.Claims.Claim;
 
 namespace Sindikat.Identity.Application.Services
 {
-    // TODO: move this to Application layer
     public class JwtFactory : IJwtFactory
     {
         public IConfiguration Configuration { get; set; }

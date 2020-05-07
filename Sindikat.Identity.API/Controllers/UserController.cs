@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Sindikat.Identity.Domain.Models.User;
-using Sindikat.Identity.Persistence.Repository;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Sindikat.Identity.Application.Interfaces;
-using Sindikat.Identity.Common.Exceptions;
 using Sindikat.Identity.Application.Dtos;
+using Sindikat.Identity.API.ActionFilters;
+using Sindikat.Identity.Common.Enums;
 
 namespace Sindikat.Identity.API.Controllers
 {
+    [AuthorizeRoles(Roles.Admin)]
     [ApiController]
     [Route("api/[controller]/[action]")]
     public class UserController : ControllerBase
