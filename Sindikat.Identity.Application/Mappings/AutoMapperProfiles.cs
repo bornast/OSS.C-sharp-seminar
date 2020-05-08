@@ -10,6 +10,8 @@ namespace Sindikat.Identity.Application.Mappings
     {
         public AutoMapperProfiles()
         {
+            CreateMap<Role, RoleDto>();
+
             CreateMap<ClaimForSaveDto, Claim>();
 
             CreateMap<Claim, ClaimDto>();

@@ -16,10 +16,10 @@ namespace Sindikat.Identity.Persistence
         {
             var assembly = Assembly.GetExecutingAssembly();
 
-            builder.RegisterAssemblyTypes(assembly).Where(t => t.Name.EndsWith("Repository")).AsSelf();
             builder.RegisterType<BaseRepository<Claim>>().As<IBaseRepository<Claim>>();
             builder.RegisterType<BaseRepository<User>>().As<IBaseRepository<User>>();
             builder.RegisterType<BaseRepository<RefreshToken>>().As<IBaseRepository<RefreshToken>>();
+            builder.RegisterType<BaseRepository<Role>>().As<IBaseRepository<Role>>();
         }
     }
 }
