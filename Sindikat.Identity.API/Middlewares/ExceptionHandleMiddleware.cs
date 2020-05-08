@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace Sindikat.Identity.API.Middlewares
 {
-    public class CustomExceptionHandlerMiddleware
+    public class ExceptionHandlerMiddleware
     {
         private readonly RequestDelegate _next;
 
-        public CustomExceptionHandlerMiddleware(RequestDelegate next)
+        public ExceptionHandlerMiddleware(RequestDelegate next)
         {
             _next = next;
         }

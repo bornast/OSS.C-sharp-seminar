@@ -69,7 +69,7 @@ namespace Sindikat.Identity.Application.Services
                 .AddSeconds(expiryDateUnix);
 
             if (expiryDateTimeUtc > DateTime.UtcNow)            
-                ThrowValidationError("Token", "Token has not expired yet!");
+                ThrowValidationError("Token", "Invalid token!");
 
             var jti = validatedToken.Claims.Single(x => x.Type == JwtRegisteredClaimNames.Jti).Value;
 

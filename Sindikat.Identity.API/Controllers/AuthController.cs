@@ -3,6 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using Sindikat.Identity.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Sindikat.Identity.Application.Dtos;
+using Microsoft.Extensions.Caching.Distributed;
+using System;
+using System.Text;
+using System.Linq;
 
 namespace Sindikat.Identity.API.Controllers
 {
@@ -12,11 +16,13 @@ namespace Sindikat.Identity.API.Controllers
     {        
         private readonly IAuthService _authService;
         private readonly IAuthValidatorService _authValidatorService;
+        private readonly IDistributedCache _distributedCache;
 
-        public AuthController(IAuthService authService, IAuthValidatorService authValidatorService)
+        public AuthController(IAuthService authService, IAuthValidatorService authValidatorService, IDistributedCache distributedCache)
         {            
             _authService = authService;
             _authValidatorService = authValidatorService;
+            _distributedCache = distributedCache;
         }
 
         [HttpPost]
@@ -49,5 +55,16 @@ namespace Sindikat.Identity.API.Controllers
             return Ok(token);
         }
 
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> SignOut()
+        {
+            var token = HttpContext.Request.Headers.FirstOrDefault(x => x.Key == "Authorization")
+                .Value.FirstOrDefault().Substring("Bearer".Length + 1);
+
+            await _authService.SignOut(token);
+
+            return Ok();
+        }
     }
 }

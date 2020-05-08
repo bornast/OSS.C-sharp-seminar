@@ -11,5 +11,6 @@ namespace Sindikat.Identity.Application.Interfaces
         Task<LoginSuccessDto> Login(LoginDto userForLogin);
         Task Register(RegisterDto userForRegistration);
         Task<LoginSuccessDto> RefreshToken(TokenForRefreshDto tokenForRefresh);
+        Task SignOut(string token);
     }
 }

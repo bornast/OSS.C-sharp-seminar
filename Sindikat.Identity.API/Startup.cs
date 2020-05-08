@@ -18,6 +18,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Sindikat.Identity.Application;
 using Sindikat.Identity.API.Middlewares;
+using System.Linq;
 
 namespace Sindikat.Identity.API
 {
@@ -36,6 +37,11 @@ namespace Sindikat.Identity.API
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             var builder = new ContainerBuilder();
+
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = Configuration.GetSection("RedisConnectionString").Value;
+            });
 
             services.AddControllers().AddNewtonsoftJson(opt =>
             {
@@ -134,7 +140,7 @@ namespace Sindikat.Identity.API
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseMiddleware<CustomExceptionHandlerMiddleware>();
+            app.UseMiddleware<ExceptionHandlerMiddleware>();
 
             app.UseSwagger();
 
@@ -144,6 +150,12 @@ namespace Sindikat.Identity.API
             });
 
             app.UseRouting();
+
+            var routesToCheckTokenBlacklist = new List<string> { "SignOut", "Claim/", "User/" };
+            app.UseWhen(context => routesToCheckTokenBlacklist.Any(x => context.Request.Path.Value.Contains(x)), appBuilder =>
+            {
+                appBuilder.UseMiddleware<BlacklistedTokensMiddleware>();
+            });
 
             app.UseAuthentication();
 

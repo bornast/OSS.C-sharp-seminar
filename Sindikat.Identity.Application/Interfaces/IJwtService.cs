@@ -12,6 +12,6 @@ namespace Sindikat.Identity.Application.Interfaces
     {
         Task<LoginSuccessDto> GenerateToken(User user);
         Task<LoginSuccessDto> RefreshToken(TokenForRefreshDto tokenForRefresh);
-        ClaimsPrincipal GetPrincipalFromToken(string token);
+        ClaimsPrincipal GetPrincipalFromToken(string token, bool validateLifetime = false);
     }
 }

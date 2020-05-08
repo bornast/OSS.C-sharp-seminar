@@ -105,14 +105,14 @@ namespace Sindikat.Identity.Application.Services
             return await GenerateToken(user);
         }
 
-        public ClaimsPrincipal GetPrincipalFromToken(string token)
+        public ClaimsPrincipal GetPrincipalFromToken(string token, bool validateLifetime = false)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
 
             try
             {
                 var tokenValidationParameters = _tokenValidationParameters.Clone();
-                tokenValidationParameters.ValidateLifetime = false;
+                tokenValidationParameters.ValidateLifetime = validateLifetime;
                 var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out var validatedToken);
                 if (!IsJwtWithValidSecurityAlgorithm(validatedToken))
                 {

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.IdentityModel.Tokens;
 using Sindikat.Identity.Application.Dtos;
 using Sindikat.Identity.Application.Interfaces;
@@ -22,17 +23,23 @@ namespace Sindikat.Identity.Application.Services
         private readonly SignInManager<User> _signInManager;
         private readonly IJwtService _jwtService;
         private readonly IMapper _mapper;
+        private readonly IDistributedCache _distributedCache;
+        private readonly IBaseRepository<RefreshToken> _refreshTokenRepo;
 
         public AuthService(
             UserManager<User> userManager, 
             SignInManager<User> signInManager, 
             IJwtService jwtFactory, 
-            IMapper mapper)
+            IMapper mapper,
+            IDistributedCache distributedCache,
+            IBaseRepository<RefreshToken> refreshTokenRepo)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _jwtService = jwtFactory;
             _mapper = mapper;
+            _distributedCache = distributedCache;
+            _refreshTokenRepo = refreshTokenRepo;
         }
 
         public async Task<LoginSuccessDto> Login(LoginDto userForLogin)
@@ -59,7 +66,36 @@ namespace Sindikat.Identity.Application.Services
         public async Task<LoginSuccessDto> RefreshToken(TokenForRefreshDto tokenForRefresh)
         {
             return await _jwtService.RefreshToken(tokenForRefresh);
-        }        
+        }
+
+        public async Task SignOut(string token)
+        {
+            // TODO: should this be in jwtService?
+            var validatedToken = _jwtService.GetPrincipalFromToken(token);            
+
+            var expiryDateUnix = long.Parse(validatedToken.Claims
+                .Single(x => x.Type == JwtRegisteredClaimNames.Exp).Value);
+
+            var expiryDateTimeUtc = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+                .AddSeconds(expiryDateUnix);
+
+            var options = new DistributedCacheEntryOptions()
+               .SetSlidingExpiration(TimeSpan.FromMinutes
+               ((expiryDateTimeUtc - DateTime.UtcNow).TotalMinutes));
+
+            var jti = validatedToken.Claims.Single(x => x.Type == JwtRegisteredClaimNames.Jti).Value;
+
+            var refreshTokens = await _refreshTokenRepo.WhereAsync(x => x.JwtId == jti && x.Invalidated == false && x.Used == false);
+
+            foreach (var refreshToken in refreshTokens)
+            {
+                refreshToken.Invalidated = true;
+            }
+
+            await _refreshTokenRepo.FlushAsync();
+
+            await _distributedCache.SetAsync(jti, Encoding.UTF8.GetBytes(token), options);
+        }
 
     }
 }
