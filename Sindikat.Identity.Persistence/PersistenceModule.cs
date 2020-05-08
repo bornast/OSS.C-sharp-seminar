@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
-using Autofac;
+﻿using Autofac;
 using Sindikat.Identity.Application.Interfaces;
 using Sindikat.Identity.Domain.Entities;
 using Sindikat.Identity.Persistence.Repository;
+using System.Reflection;
 using Module = Autofac.Module;
 
 namespace Sindikat.Identity.Persistence

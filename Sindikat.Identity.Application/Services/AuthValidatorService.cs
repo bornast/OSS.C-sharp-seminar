@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Tokens;
 using Sindikat.Identity.Application.Dtos;
 using Sindikat.Identity.Application.Interfaces;
 using Sindikat.Identity.Application.Validators;
@@ -7,7 +6,6 @@ using Sindikat.Identity.Domain.Entities;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Sindikat.Identity.Application.Services
@@ -18,14 +16,14 @@ namespace Sindikat.Identity.Application.Services
         private readonly IBaseRepository<RefreshToken> _refreshTokenRepository;
         private readonly IJwtService _jwtService;
 
-        public AuthValidatorService(UserManager<User> userManager, 
+        public AuthValidatorService(UserManager<User> userManager,
             IBaseRepository<RefreshToken> refreshTokenRepository,
             IJwtService jwtService)
         {
             _userManager = userManager;
             _refreshTokenRepository = refreshTokenRepository;
             _jwtService = jwtService;
-        }        
+        }
 
         public void ValidateBeforeLogin(LoginDto userForLogin)
         {
@@ -55,7 +53,7 @@ namespace Sindikat.Identity.Application.Services
         {
             var validatedToken = _jwtService.GetPrincipalFromToken(tokenForRefresh.Token);
 
-            if (validatedToken == null)            
+            if (validatedToken == null)
                 ThrowValidationError("Token", "Invalid token!");
 
             var expiryDateUnix = long.Parse(validatedToken.Claims
@@ -64,15 +62,15 @@ namespace Sindikat.Identity.Application.Services
             var expiryDateTimeUtc = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
                 .AddSeconds(expiryDateUnix);
 
-            if (expiryDateTimeUtc > DateTime.UtcNow)            
+            if (expiryDateTimeUtc > DateTime.UtcNow)
                 ThrowValidationError("Token", "Invalid token!");
 
             var jti = validatedToken.Claims.Single(x => x.Type == JwtRegisteredClaimNames.Jti).Value;
 
             var storedRefreshToken = await _refreshTokenRepository.FirstOrDefaultAsync(x => x.Token == tokenForRefresh.RefreshToken && x.JwtId == jti);
 
-            if (storedRefreshToken == null 
-                || DateTime.UtcNow > storedRefreshToken.ExpiryDate 
+            if (storedRefreshToken == null
+                || DateTime.UtcNow > storedRefreshToken.ExpiryDate
                 || storedRefreshToken.Invalidated
                 || storedRefreshToken.Used)
                 ThrowValidationError("Token", "Invalid token!");

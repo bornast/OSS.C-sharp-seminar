@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using Sindikat.Identity.Domain.Entities;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using Sindikat.Identity.Application.Interfaces;
-using System.Linq;
-using SystemClaim = System.Security.Claims.Claim;
 using Sindikat.Identity.Application.Dtos;
+using Sindikat.Identity.Application.Interfaces;
+using Sindikat.Identity.Domain.Entities;
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
+using SystemClaim = System.Security.Claims.Claim;
 
 namespace Sindikat.Identity.Application.Services
 {
@@ -21,11 +21,11 @@ namespace Sindikat.Identity.Application.Services
         private readonly IBaseRepository<RefreshToken> _repo;
         private readonly UserManager<User> _userManager;
         private readonly TokenValidationParameters _tokenValidationParameters;
-        private readonly IRefreshTokenService _refreshTokenService;        
+        private readonly IRefreshTokenService _refreshTokenService;
 
         public JwtService(
-            IConfiguration configuration, 
-            IBaseRepository<RefreshToken> repo, 
+            IConfiguration configuration,
+            IBaseRepository<RefreshToken> repo,
             UserManager<User> userManager,
             TokenValidationParameters tokenValidationParameters,
             IRefreshTokenService refreshTokenService)
@@ -81,7 +81,7 @@ namespace Sindikat.Identity.Application.Services
             }
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtKey"]));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);            
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var expires = DateTime.Now.AddMinutes(Convert.ToDouble(_configuration["JwtExpireMinutes"]));
 
             var token = new JwtSecurityToken(
@@ -99,7 +99,7 @@ namespace Sindikat.Identity.Application.Services
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
                 RefreshToken = refreshToken.Token
             };
-        }        
+        }
 
         public ClaimsPrincipal GetPrincipalFromToken(string token, bool validateLifetime = false)
         {

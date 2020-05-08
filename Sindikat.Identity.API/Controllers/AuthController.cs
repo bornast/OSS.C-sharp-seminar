@@ -1,25 +1,23 @@
-﻿using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Sindikat.Identity.Application.Interfaces;
-using Microsoft.AspNetCore.Authorization;
-using Sindikat.Identity.Application.Dtos;
 using Microsoft.Extensions.Caching.Distributed;
-using System;
-using System.Text;
+using Sindikat.Identity.Application.Dtos;
+using Sindikat.Identity.Application.Interfaces;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Sindikat.Identity.API.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class AuthController : ControllerBase
-    {        
+    {
         private readonly IAuthService _authService;
         private readonly IAuthValidatorService _authValidatorService;
         private readonly IDistributedCache _distributedCache;
 
         public AuthController(IAuthService authService, IAuthValidatorService authValidatorService, IDistributedCache distributedCache)
-        {            
+        {
             _authService = authService;
             _authValidatorService = authValidatorService;
             _distributedCache = distributedCache;

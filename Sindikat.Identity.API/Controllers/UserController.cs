@@ -1,9 +1,9 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Sindikat.Identity.Application.Interfaces;
-using Sindikat.Identity.Application.Dtos;
+﻿using Microsoft.AspNetCore.Mvc;
 using Sindikat.Identity.API.ActionFilters;
+using Sindikat.Identity.Application.Dtos;
+using Sindikat.Identity.Application.Interfaces;
 using Sindikat.Identity.Common.Enums;
+using System.Threading.Tasks;
 
 namespace Sindikat.Identity.API.Controllers
 {

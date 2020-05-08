@@ -3,10 +3,6 @@ using Sindikat.Identity.Application.Interfaces;
 using Sindikat.Identity.Application.Validators;
 using Sindikat.Identity.Common.Exceptions;
 using Sindikat.Identity.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Sindikat.Identity.Application.Services
@@ -18,7 +14,7 @@ namespace Sindikat.Identity.Application.Services
         public ClaimValidatorService(IBaseRepository<Claim> repo)
         {
             _repo = repo;
-        }        
+        }
 
         public async Task ValidateBeforeSave(ClaimForSaveDto claimForSave)
         {

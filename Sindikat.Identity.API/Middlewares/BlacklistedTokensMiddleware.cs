@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Caching.Distributed;
 using Sindikat.Identity.Application.Interfaces;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;

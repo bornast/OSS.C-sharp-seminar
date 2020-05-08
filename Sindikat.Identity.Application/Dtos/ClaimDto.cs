@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Sindikat.Identity.Application.Dtos
+﻿namespace Sindikat.Identity.Application.Dtos
 {
     public class ClaimDto
     {

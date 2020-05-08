@@ -1,17 +1,15 @@
-﻿using Sindikat.Identity.Domain.Entities;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Sindikat.Identity.Domain.Entities;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 
 namespace Sindikat.Identity.Persistence
 {
-    public class IdentityDbContext : IdentityDbContext<User, Role, string, 
+    public class IdentityDbContext : IdentityDbContext<User, Role, string,
         IdentityUserClaim<string>, UserRole, IdentityUserLogin<string>,
         IdentityRoleClaim<string>, IdentityUserToken<string>>
     {
@@ -50,7 +48,7 @@ namespace Sindikat.Identity.Persistence
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<User>(b =>
-            {               
+            {
                 // Each User can have many entries in the UserRole join table
                 b.HasMany(e => e.UserRoles)
                     .WithOne(e => e.User)
@@ -64,7 +62,7 @@ namespace Sindikat.Identity.Persistence
                 b.HasMany(e => e.UserRoles)
                     .WithOne(e => e.Role)
                     .HasForeignKey(ur => ur.RoleId)
-                    .IsRequired();                
+                    .IsRequired();
             });
 
         }

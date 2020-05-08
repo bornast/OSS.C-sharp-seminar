@@ -2,8 +2,6 @@
 using Newtonsoft.Json;
 using Sindikat.Identity.Common.Exceptions;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 

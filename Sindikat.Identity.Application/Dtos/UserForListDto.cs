@@ -1,9 +1,4 @@
-﻿using Sindikat.Identity.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Sindikat.Identity.Application.Dtos
+﻿namespace Sindikat.Identity.Application.Dtos
 {
     public class UserForListDto
     {

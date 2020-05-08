@@ -1,8 +1,5 @@
-﻿using Sindikat.Identity.Persistence.Infrastructure;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Microsoft.EntityFrameworkCore;
+using Sindikat.Identity.Persistence.Infrastructure;
 
 namespace Sindikat.Identity.Persistence
 {

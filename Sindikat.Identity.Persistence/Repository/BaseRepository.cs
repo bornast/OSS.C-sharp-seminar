@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections;
+﻿using Microsoft.EntityFrameworkCore;
+using Sindikat.Identity.Application.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Sindikat.Identity.Application.Interfaces;
 
 namespace Sindikat.Identity.Persistence.Repository
 {

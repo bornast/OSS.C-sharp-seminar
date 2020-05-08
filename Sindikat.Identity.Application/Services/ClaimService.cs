@@ -3,10 +3,7 @@ using Sindikat.Identity.Application.Dtos;
 using Sindikat.Identity.Application.Interfaces;
 using Sindikat.Identity.Common.Exceptions;
 using Sindikat.Identity.Domain.Entities;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Sindikat.Identity.Application.Services
@@ -46,7 +43,7 @@ namespace Sindikat.Identity.Application.Services
             _repo.Add(claim);
 
             await _repo.SaveAsync();
-        }        
+        }
 
         public async Task Update(int claimId, ClaimForSaveDto claimForSave)
         {

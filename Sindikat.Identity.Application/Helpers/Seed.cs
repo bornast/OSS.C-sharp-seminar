@@ -7,7 +7,7 @@ using System.Linq;
 namespace Sindikat.Identity.Application.Helpers
 {
     public static class Seed
-    {        
+    {
         public static void SeedCoreData(UserManager<User> userManager, RoleManager<Role> roleManager)
         {
             if (roleManager.Roles.Count() > 0)
@@ -38,7 +38,7 @@ namespace Sindikat.Identity.Application.Helpers
             var admin = userManager.FindByNameAsync("Admin").Result;
 
             userManager.AddToRoleAsync(admin, Enum.GetName(typeof(Roles), Roles.Admin)).Wait();
-        }        
+        }
 
     }
 }

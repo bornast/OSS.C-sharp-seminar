@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Sindikat.Identity.API.ActionFilters;
 using Sindikat.Identity.Application.Dtos;
 using Sindikat.Identity.Application.Interfaces;
 using Sindikat.Identity.Common.Enums;
-using Sindikat.Identity.Common.Exceptions;
 using System.Threading.Tasks;
 
 namespace Sindikat.Identity.API.Controllers
@@ -22,7 +20,7 @@ namespace Sindikat.Identity.API.Controllers
             _claimService = claimService;
             _claimValidatorService = claimValidatorService;
         }
-        
+
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {

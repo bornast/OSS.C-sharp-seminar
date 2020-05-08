@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore;
+﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Sindikat.Identity.Application.Helpers;
 using Sindikat.Identity.Domain.Entities;
 using Sindikat.Identity.Persistence;
+using System;
 
 namespace Sindikat.Identity.API
 {
@@ -32,7 +26,7 @@ namespace Sindikat.Identity.API
 
                     var userManager = services.GetRequiredService<UserManager<User>>();
                     var roleManager = services.GetRequiredService<RoleManager<Role>>();
-                    Seed.SeedCoreData(userManager,roleManager);
+                    Seed.SeedCoreData(userManager, roleManager);
                 }
                 catch (Exception ex)
                 {

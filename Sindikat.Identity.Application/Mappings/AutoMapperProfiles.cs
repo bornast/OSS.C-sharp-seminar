@@ -50,16 +50,16 @@ namespace Sindikat.Identity.Application.Mappings
 
                     if (claimFromRequest != null)
                         claim.ClaimValue = claimFromRequest.ClaimValue;
-                }                
+                }
 
                 // add claims
                 var claimsToAdd = src.Claims.Where(c => !dest.UserClaims.Any(x => x.ClaimId == c.ClaimId)).ToList()
                 .Select(c => new UserClaim { ClaimId = c.ClaimId, ClaimValue = c.ClaimValue });
 
                 foreach (var claimToAdd in claimsToAdd)
-                    dest.UserClaims.Add(claimToAdd);                                
+                    dest.UserClaims.Add(claimToAdd);
 
-            });            
+            });
 
             CreateMap<User, UserForDetailedDto>()
                 .ForMember(x => x.Roles, opt =>

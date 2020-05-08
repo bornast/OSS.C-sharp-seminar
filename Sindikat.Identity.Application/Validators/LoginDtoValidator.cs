@@ -1,8 +1,5 @@
 ﻿using FluentValidation;
 using Sindikat.Identity.Application.Dtos;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Sindikat.Identity.Application.Validators
 {
@@ -13,5 +10,5 @@ namespace Sindikat.Identity.Application.Validators
             RuleFor(x => x.UserName).NotEmpty();
             RuleFor(x => x.Password).NotEmpty().MinimumLength(3);
         }
-    }    
+    }
 }

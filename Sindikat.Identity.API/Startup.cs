@@ -1,25 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Text;
-using Autofac;
+﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using Sindikat.Identity.Domain.Entities;
-using Sindikat.Identity.Persistence;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
-using Sindikat.Identity.Application;
-using Sindikat.Identity.API.Middlewares;
-using System.Linq;
 using Sindikat.Identity.API.Extensions;
+using Sindikat.Identity.API.Middlewares;
+using Sindikat.Identity.Application;
+using Sindikat.Identity.Persistence;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Sindikat.Identity.API
 {
@@ -38,7 +29,7 @@ namespace Sindikat.Identity.API
         {
             var builder = new ContainerBuilder();
 
-            services.AddWebServices(Configuration);                        
+            services.AddWebServices(Configuration);
 
             builder.Populate(services);
             builder.RegisterModule(new PersistenceModule());

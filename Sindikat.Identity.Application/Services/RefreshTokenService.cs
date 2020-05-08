@@ -42,7 +42,7 @@ namespace Sindikat.Identity.Application.Services
         }
 
         public async Task<RefreshToken> CreateRefreshToken(string jti, User user, bool commit = false)
-        {            
+        {
             var refreshToken = new RefreshToken
             {
                 JwtId = jti,

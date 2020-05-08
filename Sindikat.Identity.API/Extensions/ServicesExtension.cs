@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,7 +9,6 @@ using Sindikat.Identity.Domain.Entities;
 using Sindikat.Identity.Persistence;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 
 namespace Sindikat.Identity.API.Extensions
@@ -73,7 +71,7 @@ namespace Sindikat.Identity.API.Extensions
 
             });
         }
-    
+
         private static void AddAuth(IServiceCollection services, IConfiguration configuration)
         {
             services.AddIdentity<User, Role>(options =>
@@ -85,7 +83,7 @@ namespace Sindikat.Identity.API.Extensions
                 options.Password.RequireLowercase = false;
             })
                 .AddEntityFrameworkStores<IdentityDbContext>()
-                .AddDefaultTokenProviders();            
+                .AddDefaultTokenProviders();
 
             var tokenValidationParameters = new TokenValidationParameters
             {
@@ -112,7 +110,7 @@ namespace Sindikat.Identity.API.Extensions
                     cfg.TokenValidationParameters = tokenValidationParameters;
                 });
         }
-    
+
         private static void AddDbContext(IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<IdentityDbContext>(options =>

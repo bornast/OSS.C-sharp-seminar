@@ -1,9 +1,6 @@
-﻿using Sindikat.Identity.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Sindikat.Identity.Domain.Entities;
 
 namespace Sindikat.Identity.Persistence.Configurations
 {

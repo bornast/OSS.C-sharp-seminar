@@ -1,9 +1,7 @@
 ﻿using Sindikat.Identity.Application.Dtos;
 using Sindikat.Identity.Domain.Entities;
 using System;
-using System.Collections.Generic;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Sindikat.Identity.Application.Interfaces

@@ -21,9 +21,9 @@ namespace Sindikat.Identity.Application.Services
         private readonly ICacheService _cacheService;
 
         public AuthService(
-            UserManager<User> userManager, 
-            SignInManager<User> signInManager, 
-            IJwtService jwtFactory, 
+            UserManager<User> userManager,
+            SignInManager<User> signInManager,
+            IJwtService jwtFactory,
             IMapper mapper,
             IRefreshTokenService refreshTokenService,
             ICacheService cacheService)
@@ -72,8 +72,8 @@ namespace Sindikat.Identity.Application.Services
 
         public async Task SignOut(string token)
         {
-            var validatedToken = _jwtService.GetPrincipalFromToken(token);            
-            
+            var validatedToken = _jwtService.GetPrincipalFromToken(token);
+
             var jti = _jwtService.GetJtiFromToken(validatedToken);
 
             await _cacheService.SetAsync(jti, token, _jwtService.GetTokenExpiryTimeSpan(validatedToken).TotalMinutes);
