@@ -45,7 +45,7 @@ namespace Sindikat.Identity.Application.Services
 
             _mapper.Map(userForUpdate, user);
 
-            await _repo.FlushAsync();
+            await _repo.SaveAsync();
         }
 
         public async Task Delete(string id)
@@ -54,7 +54,7 @@ namespace Sindikat.Identity.Application.Services
 
             _repo.Delete(user);
 
-            await _repo.FlushAsync();
+            await _repo.SaveAsync();
         }
 
     }

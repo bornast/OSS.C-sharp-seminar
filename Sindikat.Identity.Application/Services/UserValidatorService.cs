@@ -20,7 +20,7 @@ namespace Sindikat.Identity.Application.Services
         {
             _repo = repo;
         }
-        public async Task ValidateForUpdate(string userId, UserForUpdateDto userForUpdate)
+        public async Task ValidateBeforeUpdate(string userId, UserForUpdateDto userForUpdate)
         {
             var validator = new UserForUpdateDtoValidator();
 
@@ -39,7 +39,7 @@ namespace Sindikat.Identity.Application.Services
                 ThrowValidationError("Role", $"Admin role cannot be removed!");
         }
 
-        public async Task ValidateForDelete(string userId)
+        public async Task ValidateBeforeDelete(string userId)
         {
             var user = await _repo.FindAsync(userId);
 

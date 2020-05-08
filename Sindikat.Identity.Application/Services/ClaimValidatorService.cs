@@ -20,7 +20,7 @@ namespace Sindikat.Identity.Application.Services
             _repo = repo;
         }        
 
-        public async Task ValidateForSave(ClaimForSaveDto claimForSave)
+        public async Task ValidateBeforeSave(ClaimForSaveDto claimForSave)
         {
             var validator = new ClaimForSaveDtoValidator();
 
@@ -32,7 +32,7 @@ namespace Sindikat.Identity.Application.Services
                 ThrowValidationError("Claim", $"Claim {claimForSave.Name} already exists!");
         }
 
-        public async Task ValidateForUpdate(int claimId, ClaimForSaveDto claimForSave)
+        public async Task ValidateBeforeUpdate(int claimId, ClaimForSaveDto claimForSave)
         {
             var validator = new ClaimForSaveDtoValidator();
 
@@ -49,7 +49,7 @@ namespace Sindikat.Identity.Application.Services
                 ThrowValidationError("Claim", $"Claim {claimWithSameName.Name} already exists!");
         }
 
-        public async Task ValidateForDelete(int claimId)
+        public async Task ValidateBeforeDelete(int claimId)
         {
             var claim = await _repo.FindAsync(claimId);
 

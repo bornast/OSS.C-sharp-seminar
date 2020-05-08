@@ -42,7 +42,7 @@ namespace Sindikat.Identity.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(ClaimForSaveDto claimForSave)
         {
-            await _claimValidatorService.ValidateForSave(claimForSave);
+            await _claimValidatorService.ValidateBeforeSave(claimForSave);
 
             await _claimService.Create(claimForSave);
 
@@ -52,7 +52,7 @@ namespace Sindikat.Identity.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, ClaimForSaveDto claimForSave)
         {
-            await _claimValidatorService.ValidateForUpdate(id, claimForSave);
+            await _claimValidatorService.ValidateBeforeUpdate(id, claimForSave);
 
             await _claimService.Update(id, claimForSave);
 
@@ -62,7 +62,7 @@ namespace Sindikat.Identity.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            await _claimValidatorService.ValidateForDelete(id);
+            await _claimValidatorService.ValidateBeforeDelete(id);
 
             await _claimService.Delete(id);
 

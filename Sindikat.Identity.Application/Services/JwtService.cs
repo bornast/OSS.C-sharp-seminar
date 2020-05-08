@@ -17,24 +17,48 @@ namespace Sindikat.Identity.Application.Services
 {
     public class JwtService : IJwtService
     {
+        private readonly IConfiguration _configuration;
         private readonly IBaseRepository<RefreshToken> _repo;
         private readonly UserManager<User> _userManager;
         private readonly TokenValidationParameters _tokenValidationParameters;
+        private readonly IRefreshTokenService _refreshTokenService;        
 
-        public IConfiguration Configuration { get; set; }
-
-        public JwtService(IConfiguration configuration, 
+        public JwtService(
+            IConfiguration configuration, 
             IBaseRepository<RefreshToken> repo, 
             UserManager<User> userManager,
-            TokenValidationParameters tokenValidationParameters)
+            TokenValidationParameters tokenValidationParameters,
+            IRefreshTokenService refreshTokenService)
         {
-            Configuration = configuration;
+            _configuration = configuration;
             _repo = repo;
             _userManager = userManager;
             _tokenValidationParameters = tokenValidationParameters;
+            _refreshTokenService = refreshTokenService;
         }
 
-        public async Task<LoginSuccessDto> GenerateToken(User user)
+        public string GetJtiFromToken(ClaimsPrincipal claimsPrincipal)
+        {
+            return claimsPrincipal.Claims.Single(x => x.Type == JwtRegisteredClaimNames.Jti).Value;
+        }
+
+        public TimeSpan GetTokenExpiryTimeSpan(ClaimsPrincipal claimsPrincipal)
+        {
+            var expiryDateUnix = long.Parse(claimsPrincipal.Claims
+                .Single(x => x.Type == JwtRegisteredClaimNames.Exp).Value);
+
+            var expiryDateTimeUtc = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+                .AddSeconds(expiryDateUnix);
+
+            return expiryDateTimeUtc - DateTime.UtcNow;
+        }
+
+        public string GetUserIdFromToken(ClaimsPrincipal claimsPrincipal)
+        {
+            return claimsPrincipal.Claims.Single(x => x.Type == JwtRegisteredClaimNames.NameId).Value;
+        }
+
+        public async Task<TokenAndRefreshTokenPairDto> GenerateTokenAndRefreshTokenPair(User user)
         {
             var claims = new List<SystemClaim>
             {
@@ -56,54 +80,26 @@ namespace Sindikat.Identity.Application.Services
                 claims.Add(new SystemClaim(userClaim.Claim.Name, userClaim.ClaimValue));
             }
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtKey"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtKey"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);            
-            var expires = DateTime.Now.AddMinutes(Convert.ToDouble(Configuration["JwtExpireMinutes"]));
+            var expires = DateTime.Now.AddMinutes(Convert.ToDouble(_configuration["JwtExpireMinutes"]));
 
             var token = new JwtSecurityToken(
-                Configuration["JwtIssuer"],
-                Configuration["JwtIssuer"],
+                _configuration["JwtIssuer"],
+                _configuration["JwtIssuer"],
                 claims,
                 expires: expires,
                 signingCredentials: creds
             );
 
-            var refreshToken = new RefreshToken
-            {
-                JwtId = token.Id,
-                UserId = user.Id,
-                CreationDate = DateTime.UtcNow,
-                ExpiryDate = DateTime.UtcNow.AddMonths(6)
-            };
+            var refreshToken = await _refreshTokenService.CreateRefreshToken(token.Id, user, commit: true);
 
-            _repo.Persist(refreshToken);
-
-            await _repo.FlushAsync();
-
-            return new LoginSuccessDto
+            return new TokenAndRefreshTokenPairDto
             {
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
                 RefreshToken = refreshToken.Token
             };
-        }
-
-        public async Task<LoginSuccessDto> RefreshToken(TokenForRefreshDto tokenForRefresh)
-        {
-            var validatedToken = GetPrincipalFromToken(tokenForRefresh.Token);
-            
-            var jti = validatedToken.Claims.Single(x => x.Type == JwtRegisteredClaimNames.Jti).Value;
-
-            var storedRefreshToken = await _repo.FirstOrDefaultAsync(x => x.Token == tokenForRefresh.RefreshToken && x.JwtId == jti);
-
-            storedRefreshToken.Used = true;
-
-            await _repo.FlushAsync();
-
-            var user = await _userManager.FindByIdAsync(validatedToken.Claims
-                .Single(x => x.Type == JwtRegisteredClaimNames.NameId).Value);
-
-            return await GenerateToken(user);
-        }
+        }        
 
         public ClaimsPrincipal GetPrincipalFromToken(string token, bool validateLifetime = false)
         {

@@ -43,9 +43,9 @@ namespace Sindikat.Identity.Application.Services
         {
             var claim = _mapper.Map<Claim>(claimForSave);
 
-            _repo.Persist(claim);
+            _repo.Add(claim);
 
-            await _repo.FlushAsync();
+            await _repo.SaveAsync();
         }        
 
         public async Task Update(int claimId, ClaimForSaveDto claimForSave)
@@ -54,7 +54,7 @@ namespace Sindikat.Identity.Application.Services
 
             _mapper.Map(claimForSave, claim);
 
-            await _repo.FlushAsync();
+            await _repo.SaveAsync();
         }
 
         public async Task Delete(int id)
@@ -63,7 +63,7 @@ namespace Sindikat.Identity.Application.Services
 
             _repo.Delete(claim);
 
-            await _repo.FlushAsync();
+            await _repo.SaveAsync();
         }
     }
 }

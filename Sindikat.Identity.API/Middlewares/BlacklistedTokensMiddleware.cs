@@ -16,7 +16,7 @@ namespace Sindikat.Identity.API.Middlewares
             _next = next;
         }
 
-        public async Task Invoke(HttpContext httpContext, IDistributedCache distributedCache, IJwtService jwtService)
+        public async Task Invoke(HttpContext httpContext, ICacheService cacheService, IJwtService jwtService)
         {
             var authorizationHeader = httpContext.Request.Headers.FirstOrDefault(x => x.Key == "Authorization");
 
@@ -36,7 +36,7 @@ namespace Sindikat.Identity.API.Middlewares
 
                 var jti = validatedToken.Claims.Single(x => x.Type == JwtRegisteredClaimNames.Jti).Value;
 
-                var blacklistedToken = distributedCache.Get(jti);
+                var blacklistedToken = cacheService.GetAsync(jti).Result;
 
                 if (blacklistedToken != null)
                 {

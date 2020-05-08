@@ -40,7 +40,7 @@ namespace Sindikat.Identity.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(string id, UserForUpdateDto userForUpdate)
         {
-            await _userValidatorService.ValidateForUpdate(id, userForUpdate);
+            await _userValidatorService.ValidateBeforeUpdate(id, userForUpdate);
 
             await _userService.Update(id, userForUpdate);
 
@@ -50,7 +50,7 @@ namespace Sindikat.Identity.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
-            await _userValidatorService.ValidateForDelete(id);
+            await _userValidatorService.ValidateBeforeDelete(id);
 
             await _userService.Delete(id);
 

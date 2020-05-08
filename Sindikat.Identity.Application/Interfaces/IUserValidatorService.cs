@@ -5,7 +5,7 @@ namespace Sindikat.Identity.Application.Interfaces
 {
     public interface IUserValidatorService
     {
-        Task ValidateForUpdate(string userId, UserForUpdateDto userForUpdate);
-        Task ValidateForDelete(string userId);
+        Task ValidateBeforeUpdate(string userId, UserForUpdateDto userForUpdate);
+        Task ValidateBeforeDelete(string userId);
     }
 }

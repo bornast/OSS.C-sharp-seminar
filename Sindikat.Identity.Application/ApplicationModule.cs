@@ -2,7 +2,6 @@
 using AutoMapper;
 using Sindikat.Identity.Application.Interfaces;
 using Sindikat.Identity.Application.Services;
-using Sindikat.Identity.Domain.Entities;
 using System.Collections.Generic;
 using Module = Autofac.Module;
 
@@ -14,7 +13,11 @@ namespace Sindikat.Identity.Application
         {
             LoadAutomapper(builder);
 
+            builder.RegisterType<CacheService>().As<ICacheService>();
+
             builder.RegisterType<JwtService>().As<IJwtService>();
+
+            builder.RegisterType<RefreshTokenService>().As<IRefreshTokenService>();
 
             builder.RegisterType<AuthService>().As<IAuthService>();
             builder.RegisterType<AuthValidatorService>().As<IAuthValidatorService>();

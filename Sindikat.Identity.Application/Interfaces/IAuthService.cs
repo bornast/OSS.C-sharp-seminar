@@ -8,9 +8,9 @@ namespace Sindikat.Identity.Application.Interfaces
 {
     public interface IAuthService
     {
-        Task<LoginSuccessDto> Login(LoginDto userForLogin);
+        Task<TokenAndRefreshTokenPairDto> Login(LoginDto userForLogin);
         Task Register(RegisterDto userForRegistration);
-        Task<LoginSuccessDto> RefreshToken(TokenForRefreshDto tokenForRefresh);
+        Task<TokenAndRefreshTokenPairDto> RefreshToken(TokenForRefreshDto tokenForRefresh);
         Task SignOut(string token);
     }
 }

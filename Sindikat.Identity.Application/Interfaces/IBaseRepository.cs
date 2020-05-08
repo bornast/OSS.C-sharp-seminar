@@ -23,12 +23,12 @@ namespace Sindikat.Identity.Application.Interfaces
 
         void Delete(T entity);
 
-        void Persist(T entity);
+        void Add(T entity);
 
-        void PersistRange(IEnumerable<T> entities);
+        void AddRange(IEnumerable<T> entities);
 
-        void Flush();
+        void Save();
 
-        Task FlushAsync();
+        Task SaveAsync();
     }
 }

@@ -63,22 +63,22 @@ namespace Sindikat.Identity.Persistence.Repository
             DbSet.Remove(entity);
         }
 
-        public void Persist(T entity)
+        public void Add(T entity)
         {
             DbSet.Add(entity);
         }
 
-        public void PersistRange(IEnumerable<T> entities)
+        public void AddRange(IEnumerable<T> entities)
         {
             DbSet.AddRange(entities);
         }
 
-        public void Flush()
+        public void Save()
         {
             Db.SaveChanges();
         }
 
-        public async Task FlushAsync()
+        public async Task SaveAsync()
         {
             await Db.SaveChangesAsync();
         }

@@ -5,8 +5,8 @@ namespace Sindikat.Identity.Application.Interfaces
 {
     public interface IAuthValidatorService
     {
-        void ValidateForLogin(LoginDto userForLogin);
-        Task ValidateForRegistration(RegisterDto userForRegistration);
+        void ValidateBeforeLogin(LoginDto userForLogin);
+        Task ValidateBeforeRegistration(RegisterDto userForRegistration);
         Task ValidateBeforeTokenRefresh(TokenForRefreshDto tokenForRefresh);
     }
 }

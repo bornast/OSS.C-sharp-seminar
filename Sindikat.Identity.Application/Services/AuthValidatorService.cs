@@ -16,34 +16,30 @@ namespace Sindikat.Identity.Application.Services
     {
         private readonly UserManager<User> _userManager;
         private readonly IBaseRepository<RefreshToken> _refreshTokenRepository;
-        private readonly TokenValidationParameters _tokenValidationParameters;
         private readonly IJwtService _jwtService;
 
         public AuthValidatorService(UserManager<User> userManager, 
             IBaseRepository<RefreshToken> refreshTokenRepository,
-            TokenValidationParameters tokenValidationParameters,
             IJwtService jwtService)
         {
             _userManager = userManager;
             _refreshTokenRepository = refreshTokenRepository;
-            _tokenValidationParameters = tokenValidationParameters;
             _jwtService = jwtService;
         }        
 
-        public void ValidateForLogin(LoginDto userForLogin)
+        public void ValidateBeforeLogin(LoginDto userForLogin)
         {
             var validator = new LoginDtoValidator();
 
             CheckValidationResults(validator.Validate(userForLogin));
         }
 
-        public async Task ValidateForRegistration(RegisterDto userForRegistration)
+        public async Task ValidateBeforeRegistration(RegisterDto userForRegistration)
         {
             var validator = new RegisterDtoValidator();
 
             CheckValidationResults(validator.Validate(userForRegistration));
 
-            // TODO: refactor this to make only 1 request to the db
             var existingUserEmail = await _userManager.FindByEmailAsync(userForRegistration.Email);
 
             if (existingUserEmail != null)

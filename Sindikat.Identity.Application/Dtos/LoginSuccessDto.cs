@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Sindikat.Identity.Application.Dtos
 {
-    public class LoginSuccessDto
+    public class TokenAndRefreshTokenPairDto
     {
         public string Token { get; set; }
         public string RefreshToken { get; set; }
