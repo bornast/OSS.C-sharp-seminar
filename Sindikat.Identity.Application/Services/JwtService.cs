@@ -55,16 +55,14 @@ namespace Sindikat.Identity.Application.Services
 
         public string GetUserIdFromToken(ClaimsPrincipal claimsPrincipal)
         {
-            return claimsPrincipal.Claims.Single(x => x.Type == JwtRegisteredClaimNames.NameId).Value;
+            return claimsPrincipal.Claims.Single(x => x.Type == ClaimTypes.NameIdentifier).Value;
         }
 
         public async Task<TokenAndRefreshTokenPairDto> GenerateTokenAndRefreshTokenPair(User user)
         {
             var claims = new List<SystemClaim>
             {
-                new SystemClaim(JwtRegisteredClaimNames.Sub, user.UserName),
                 new SystemClaim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new SystemClaim(JwtRegisteredClaimNames.NameId, user.Id),
                 new SystemClaim(ClaimTypes.NameIdentifier, user.Id)
             };
 
