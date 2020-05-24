@@ -35,6 +35,9 @@ namespace Sindikat.Identity.Application.Services
 
             if (userAdminRole != null && !userForUpdate.RoleIds.Contains(userAdminRole.Id))
                 ThrowValidationError("Role", $"Admin role cannot be removed!");
+
+            if (userForUpdate.Claims.Any(x => String.IsNullOrEmpty(x.ClaimValue)))
+                ThrowValidationError("Claim", $"Every selected claim must have a value!");
         }
 
         public async Task ValidateBeforeDelete(string userId)
