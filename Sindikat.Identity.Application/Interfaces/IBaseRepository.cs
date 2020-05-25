@@ -22,6 +22,8 @@ namespace Sindikat.Identity.Application.Interfaces
 
         void Delete(T entity);
 
+        void DeleteRange(IEnumerable<T> entity);
+
         void Add(T entity);
 
         void AddRange(IEnumerable<T> entities);

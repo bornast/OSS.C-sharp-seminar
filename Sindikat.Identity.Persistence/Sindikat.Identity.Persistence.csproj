@@ -36,6 +36,8 @@
     <Compile Remove="Migrations\20200507181920_RefreshTokenTableAdded.Designer.cs" />
     <Compile Remove="Migrations\20200507190142_RefreshTokenIdAutoIncrement.cs" />
     <Compile Remove="Migrations\20200507190142_RefreshTokenIdAutoIncrement.Designer.cs" />
+    <Compile Remove="Migrations\20200525144527_test.cs" />
+    <Compile Remove="Migrations\20200525144527_test.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -12,11 +12,13 @@ namespace Sindikat.Identity.Application.Services
     {
         private readonly IBaseRepository<User> _repo;
         private readonly IMapper _mapper;
+        private readonly IBaseRepository<RefreshToken> _refreshTokenRepo;
 
-        public UserService(IBaseRepository<User> repo, IMapper mapper)
+        public UserService(IBaseRepository<User> repo, IMapper mapper, IBaseRepository<RefreshToken> refreshTokenRepo)
         {
             _repo = repo;
             _mapper = mapper;
+            _refreshTokenRepo = refreshTokenRepo;
         }
 
         public async Task<IEnumerable<UserForListDto>> GetAll()
@@ -49,6 +51,8 @@ namespace Sindikat.Identity.Application.Services
         public async Task Delete(string id)
         {
             var user = await _repo.FindAsync(id);
+
+            _refreshTokenRepo.DeleteRange(user.RefreshTokens);
 
             _repo.Delete(user);
 

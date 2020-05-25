@@ -62,6 +62,11 @@ namespace Sindikat.Identity.Persistence.Repository
             DbSet.Remove(entity);
         }
 
+        public void DeleteRange(IEnumerable<T> entity)
+        {
+            DbSet.RemoveRange(entity);
+        }
+
         public void Add(T entity)
         {
             DbSet.Add(entity);
